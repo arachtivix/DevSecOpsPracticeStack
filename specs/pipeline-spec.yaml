@@ -2,3 +2,4 @@ proton: ComponentSpec
 spec:
   repository_name: YOUR_USERNAME/YOUR_REPO
   source_path: sample-app/potato-catalog  # Path to the service code within the repository
+  github_connection_arn: arn:aws:codestar-connections:REGION:ACCOUNT_ID:connection/CONNECTION_ID

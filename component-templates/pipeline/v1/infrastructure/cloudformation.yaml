@@ -19,6 +19,10 @@ Parameters:
     Description: Path to the service code within the repository
     Default: sample-app/potato-catalog
 
+  GitHubConnectionArn:
+    Type: String
+    Description: ARN of the GitHub CodeStar connection
+
 Resources:
   ArtifactBucket:
     Type: AWS::S3::Bucket
@@ -129,12 +133,6 @@ Resources:
       Cache:
         Type: NO_CACHE
 
-  GitHubConnection:
-    Type: AWS::CodeStarConnections::Connection
-    Properties:
-      ConnectionName: !Sub ${ServiceName}-github-connection
-      ProviderType: GitHub
-
   Pipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
@@ -153,7 +151,7 @@ Resources:
                 Provider: CodeStarSourceConnection
                 Version: '1'
               Configuration:
-                ConnectionArn: !Ref GitHubConnection
+                ConnectionArn: !Ref GitHubConnectionArn
                 FullRepositoryId: !Ref RepositoryName
                 BranchName: main
                 OutputArtifactFormat: "CODE_ZIP"

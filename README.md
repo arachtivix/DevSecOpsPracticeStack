@@ -7,8 +7,7 @@ This project contains AWS Proton templates for deploying a Potato Catalog servic
 
 ## Project Structure
 - `/environment-templates` - Contains the base environment template with VPC and ECS cluster
-- `/service-templates` - Contains the Potato Catalog service template for ECS deployment
-- `/component-templates` - Contains the CI/CD pipeline component template
+- `/service-templates` - Contains the Potato Catalog service template for ECS deployment and pipeline components
 - `/sample-app/potato-catalog` - Contains the Spring Boot 3 Potato Catalog application
 
 ## Prerequisites
@@ -77,32 +76,11 @@ aws proton create-environment-template \
 # Create template version
 aws proton create-environment-template-version \
   --template-name "base-infra" \
+  --source "s3" \
   --source-s3-bucket "YOUR_BUCKET" \
   --source-s3-key "environment-templates/base-infra/v1.tar.gz"
 
-# Register service template
-aws proton create-service-template \
-  --name "springboot-service" \
-  --display-name "Spring Boot Service" \
-  --description "ECS-based Spring Boot service"
 
-# Create service template version
-aws proton create-service-template-version \
-  --template-name "springboot-service" \
-  --source-s3-bucket "YOUR_BUCKET" \
-  --source-s3-key "service-templates/springboot-service/v1.tar.gz"
-
-# Register pipeline component template
-aws proton create-component-template \
-  --name "pipeline" \
-  --display-name "CI/CD Pipeline" \
-  --description "CodePipeline for Spring Boot services"
-
-# Create component template version
-aws proton create-component-template-version \
-  --template-name "pipeline" \
-  --source-s3-bucket "YOUR_BUCKET" \
-  --source-s3-key "component-templates/pipeline/v1.tar.gz"
 ```
 
 ### 2. Create Base Environment
@@ -135,7 +113,7 @@ Follow the AWS console prompts to complete the GitHub connection authorization.
 ```bash
 aws proton create-service \
   --name "my-spring-app" \
-  --template-name "springboot-service" \
+  --template-name "potato-catalog" \
   --template-major-version "1" \
   --spec file://specs/service-spec.yaml \
   --environment-name "development"
@@ -159,12 +137,11 @@ aws proton create-component \
 - Sets up NAT Gateways for private subnet internet access
 - Creates an ECS cluster for running services
 
-### Spring Boot Service Template
+### Service Template
 - Defines ECS Task Definition and Service
 - Sets up logging and IAM roles
 - Configures security groups and networking
-
-### Pipeline Component Template
+- Includes pipeline component configuration for CI/CD
 - Creates CodePipeline with source and build stages
 - Sets up CodeBuild project for building Spring Boot apps
 - Configures necessary IAM roles and S3 bucket for artifacts

@@ -3,23 +3,3 @@ infrastructure:
     - file: "cloudformation.yaml"
       rendering_engine: jinja
       template_language: cloudformation
-
-schema:
-  format:
-    openapi: "3.0.0"
-  component_input_type: "ComponentInput"
-  types:
-    ComponentInput:
-      type: object
-      description: "Input properties for the pipeline component"
-      properties:
-        repository_name:
-          type: string
-          description: "Name of the GitHub repository in format owner/repo"
-          pattern: "^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$"
-        source_path:
-          type: string
-          description: "Path to the service code within the repository"
-          default: "sample-app/potato-catalog"
-      required:
-        - repository_name

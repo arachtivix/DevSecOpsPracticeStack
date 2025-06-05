@@ -1,0 +1,36 @@
+schema:
+  format:
+    openapi: "3.0.0"
+  environment_input_type: "BaseInfraEnvironmentInput"
+  types:
+    BaseInfraEnvironmentInput:
+      type: object
+      description: "Input properties for the base infrastructure environment"
+      properties:
+        vpc_cidr:
+          type: string
+          description: "CIDR block for the VPC"
+          default: "10.0.0.0/16"
+          pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/\\d{1,2}$"
+        public_subnet1_cidr:
+          type: string
+          description: "CIDR block for public subnet 1"
+          default: "10.0.1.0/24"
+          pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/\\d{1,2}$"
+        public_subnet2_cidr:
+          type: string
+          description: "CIDR block for public subnet 2"
+          default: "10.0.2.0/24"
+          pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/\\d{1,2}$"
+        private_subnet1_cidr:
+          type: string
+          description: "CIDR block for private subnet 1"
+          default: "10.0.3.0/24"
+          pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/\\d{1,2}$"
+        private_subnet2_cidr:
+          type: string
+          description: "CIDR block for private subnet 2"
+          default: "10.0.4.0/24"
+          pattern: "^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\/\\d{1,2}$"
+      required:
+        - vpc_cidr

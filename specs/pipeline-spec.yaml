@@ -1,0 +1,3 @@
+proton: ComponentSpec
+spec:
+  repository_name: potato-catalog

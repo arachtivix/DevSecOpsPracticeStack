@@ -1,0 +1,20 @@
+schema:
+  format:
+    openapi: "3.0.0"
+  component_input_type: "PipelineComponentInput"
+  types:
+    PipelineComponentInput:
+      type: object
+      description: "Input properties for the pipeline component"
+      properties:
+        repository_name:
+          type: string
+          description: "The name of the CodeCommit repository"
+          pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_]*$"
+        branch_name:
+          type: string
+          description: "The name of the Git branch to monitor"
+          default: "main"
+          pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_/]*$"
+      required:
+        - repository_name

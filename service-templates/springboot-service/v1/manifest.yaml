@@ -1,0 +1,30 @@
+infrastructure:
+  templates:
+    - file: "infrastructure/cloudformation.yaml"
+      rendering_engine: jinja
+      template_language: cloudformation
+
+  provisioning:
+    engine: cloudformation
+    template_file: infrastructure/cloudformation.yaml
+
+schema:
+  format:
+    openapi: "3.0.0"
+  schema_file: schema/schema.yaml
+
+pipeline:
+  build_steps:
+    - name: BuildAndTest
+      action_type: BUILD
+      run_order: 1
+      action_mode: PARALLEL
+      commands:
+        - mvn clean package
+    - name: BuildImage
+      action_type: BUILD
+      run_order: 2
+      action_mode: PARALLEL
+      commands:
+        - docker build -t $ECR_REPOSITORY:$COMMIT_ID .
+        - docker push $ECR_REPOSITORY:$COMMIT_ID

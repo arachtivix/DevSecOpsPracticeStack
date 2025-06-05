@@ -9,8 +9,8 @@ schema:
       properties:
         repository_name:
           type: string
-          description: "The name of the CodeCommit repository"
-          pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_]*$"
+          description: "The GitHub repository in the format 'owner/repository'"
+          pattern: "^[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+$"
         branch_name:
           type: string
           description: "The name of the Git branch to monitor"

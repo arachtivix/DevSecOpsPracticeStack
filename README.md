@@ -17,6 +17,50 @@ This project contains AWS Proton templates for deploying a Potato Catalog servic
 - GitHub repository for your infrastructure and application code
 - Docker installed locally for testing
 
+### Setting up AWS Proton Service Role
+
+Before you can use AWS Proton, you need to create and configure the AWS Proton service role. This role allows Proton to create and manage resources on your behalf. Here's how to set it up:
+
+1. Create the service role:
+```bash
+aws iam create-role \
+  --role-name AWSProtonServiceRole \
+  --assume-role-policy-document '{
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Effect": "Allow",
+        "Principal": {
+          "Service": "proton.amazonaws.com"
+        },
+        "Action": "sts:AssumeRole"
+      }
+    ]
+  }'
+```
+
+2. Attach the required managed policies:
+```bash
+# Attach the AWS Proton Service Role policy
+aws iam attach-role-policy \
+  --role-name AWSProtonServiceRole \
+  --policy-arn arn:aws:iam::aws:policy/service-role/AWSProtonServiceRolePolicyForProton
+
+# Attach the AWSServiceCatalogAdminFullAccess policy (if using Service Catalog)
+aws iam attach-role-policy \
+  --role-name AWSProtonServiceRole \
+  --policy-arn arn:aws:iam::aws:policy/AWSServiceCatalogAdminFullAccess
+```
+
+3. Register the role with AWS Proton:
+```bash
+aws proton update-account-settings \
+  --region your-region \
+  --pipeline-service-role-arn arn:aws:iam::your-account-id:role/AWSProtonServiceRole
+```
+
+Note: Replace `your-region` and `your-account-id` with your actual AWS region and account ID.
+
 ## Getting Started
 
 ### 1. Register Templates with AWS Proton

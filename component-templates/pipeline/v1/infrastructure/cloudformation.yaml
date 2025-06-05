@@ -14,6 +14,11 @@ Parameters:
     Type: String
     Description: Name of the GitHub repository
 
+  SourcePath:
+    Type: String
+    Description: Path to the service code within the repository
+    Default: sample-app/potato-catalog
+
 Resources:
   ArtifactBucket:
     Type: AWS::S3::Bucket
@@ -151,6 +156,11 @@ Resources:
                 ConnectionArn: !Ref GitHubConnection
                 FullRepositoryId: !Ref RepositoryName
                 BranchName: main
+                OutputArtifactFormat: "CODE_ZIP"
+                DetectChanges: true
+                FullRepositoryId: !Ref RepositoryName
+                BranchName: main
+                BasePath: !Ref SourcePath
               OutputArtifacts:
                 - Name: SourceCode
               RunOrder: 1

@@ -1,3 +1,4 @@
 proton: ComponentSpec
 spec:
-  repository_name: potato-catalog
+  repository_name: YOUR_USERNAME/YOUR_REPO
+  source_path: sample-app/potato-catalog  # Path to the service code within the repository

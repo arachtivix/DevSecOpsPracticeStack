@@ -14,7 +14,7 @@ This project contains AWS Proton templates for deploying a Potato Catalog servic
 ## Prerequisites
 - AWS CLI configured with appropriate permissions
 - AWS Proton service enabled in your account
-- GitHub repository for your application code
+- GitHub repository for your infrastructure and application code
 - Docker installed locally for testing
 
 ## Getting Started
@@ -75,19 +75,7 @@ aws proton create-environment \
 
 ### 3. Deploy Sample Application
 
-1. Create a GitHub repository and push the sample application:
-
-```bash
-# Push sample app to your GitHub repository
-cd sample-app
-git init
-git add .
-git commit -m "Initial commit"
-git remote add origin https://github.com/YOUR_USERNAME/YOUR_REPO.git
-git push -u origin main
-```
-
-2. Create a GitHub connection in AWS:
+1. Create a GitHub connection in AWS:
 
 ```bash
 # Create GitHub connection

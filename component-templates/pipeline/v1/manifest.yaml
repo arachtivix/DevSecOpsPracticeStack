@@ -17,5 +17,9 @@ schema:
           type: string
           description: "Name of the GitHub repository in format owner/repo"
           pattern: "^[a-zA-Z0-9_-]+/[a-zA-Z0-9_-]+$"
+        source_path:
+          type: string
+          description: "Path to the service code within the repository"
+          default: "sample-app/potato-catalog"
       required:
         - repository_name

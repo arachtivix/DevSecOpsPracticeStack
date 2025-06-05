@@ -1,7 +1,7 @@
 schema:
   format:
     openapi: "3.0.0"
-  component_input_type: "PipelineComponentInput"
+  environment_input_type: "PipelineComponentInput"
   types:
     PipelineComponentInput:
       type: object

@@ -7,15 +7,6 @@ schema:
       type: object
       description: "Input properties for the pipeline component"
       properties:
-        repository_name:
-          type: string
-          description: "The GitHub repository in the format 'owner/repository'"
-          pattern: "^[a-zA-Z0-9-_]+/[a-zA-Z0-9-_]+$"
-        branch_name:
-          type: string
-          description: "The name of the Git branch to monitor"
-          default: "main"
-          pattern: "^[a-zA-Z0-9][a-zA-Z0-9-_/]*$"
         github_connection_arn:
           type: string
           description: "The ARN of the GitHub CodeStar connection"

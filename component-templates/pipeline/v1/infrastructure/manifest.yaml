@@ -1,6 +1,6 @@
 infrastructure:
   templates:
-    - file: "infrastructure/cloudformation.yaml"
+    - file: "cloudformation.yaml"
       rendering_engine: jinja
       template_language: cloudformation
 

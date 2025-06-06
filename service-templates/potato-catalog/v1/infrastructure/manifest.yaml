@@ -3,6 +3,3 @@ infrastructure:
     - file: "infrastructure/cloudformation.yaml"
       rendering_engine: jinja
       template_language: cloudformation
-
-compatible_environments:
-  - "base-infra:1"

@@ -2,10 +2,6 @@ AWSTemplateFormatVersion: '2010-09-09'
 Description: AWS Proton template for ECS Service running Spring Boot application
 
 Parameters:
-  EnvironmentName:
-    Type: String
-    Description: Environment name
-
   ContainerPort:
     Type: Number
     Default: 8080
@@ -89,7 +85,7 @@ Resources:
     Properties:
       AWS::StackName: !Ref AWS::StackName
       Cluster: 
-        Fn::ImportValue: !Sub ${EnvironmentName}-ECSClusterName
+        Fn::ImportValue: !Sub ${environment.outputs.name}-ECSClusterName
       TaskDefinition: !Ref TaskDefinition
       DesiredCount: !Ref DesiredCount
       LaunchType: FARGATE
@@ -99,8 +95,8 @@ Resources:
           SecurityGroups:
             - !Ref ContainerSecurityGroup
           Subnets:
-            - Fn::ImportValue: !Sub ${EnvironmentName}-PrivateSubnet1
-            - Fn::ImportValue: !Sub ${EnvironmentName}-PrivateSubnet2
+            - Fn::ImportValue: !Sub ${environment.outputs.name}-PrivateSubnet1
+            - Fn::ImportValue: !Sub ${environment.outputs.name}-PrivateSubnet2
       LoadBalancers:
         - ContainerName: !Ref AWS::StackName
           ContainerPort: !Ref ContainerPort
@@ -111,7 +107,7 @@ Resources:
     Properties:
       GroupDescription: !Sub ${AWS::StackName} container security group
       VpcId:
-        Fn::ImportValue: !Sub ${EnvironmentName}-VpcId
+        Fn::ImportValue: !Sub ${environment.outputs.name}-VpcId
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: !Ref ContainerPort
@@ -123,7 +119,7 @@ Resources:
     Properties:
       GroupDescription: !Sub ${AWS::StackName} load balancer security group
       VpcId:
-        Fn::ImportValue: !Sub ${EnvironmentName}-VpcId
+        Fn::ImportValue: !Sub ${environment.outputs.name}-VpcId
       SecurityGroupIngress:
         - IpProtocol: tcp
           FromPort: 80
@@ -135,8 +131,8 @@ Resources:
     Properties:
       Name: !Sub ${AWS::StackName}-alb
       Subnets:
-        - Fn::ImportValue: !Sub ${EnvironmentName}-PublicSubnet1
-        - Fn::ImportValue: !Sub ${EnvironmentName}-PublicSubnet2
+        - Fn::ImportValue: !Sub ${environment.outputs.name}-PublicSubnet1
+        - Fn::ImportValue: !Sub ${environment.outputs.name}-PublicSubnet2
       SecurityGroups:
         - !Ref LoadBalancerSecurityGroup
 
@@ -154,7 +150,7 @@ Resources:
       Protocol: HTTP
       UnhealthyThresholdCount: 5
       VpcId:
-        Fn::ImportValue: !Sub ${EnvironmentName}-VpcId
+        Fn::ImportValue: !Sub ${environment.outputs.name}-VpcId
 
   Listener:
     Type: AWS::ElasticLoadBalancingV2::Listener

@@ -7,6 +7,9 @@ schema:
     type: object
     description: "An awesome potato service"
     properties:
+      environment_name:
+        type: string
+        description: "Name of the environment this service will be deployed to"
       container_port:
         type: number
         description: "Port number the container will listen on"
@@ -55,6 +58,7 @@ schema:
     required:
       - github_connection_arn
   required:
+    - environment_name
     - container_port
     - container_cpu
     - container_memory

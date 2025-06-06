@@ -1,6 +1,0 @@
-proton: ServiceSpec
-spec:
-  container_port: 8080
-  container_cpu: 256
-  container_memory: 512
-  desired_count: 2

@@ -1,0 +1,41 @@
+schema:
+  format:
+    openapi: "3.0.0"
+  type: object
+  description: "Input schema for the potato-catalog service"
+  properties:
+    container_port:
+      type: number
+      description: "Port number the container will listen on"
+      default: 8080
+      minimum: 0
+      maximum: 65535
+    container_cpu:
+      type: number
+      description: "CPU units for the container (1024 units = 1 vCPU)"
+      default: 256
+      enum: [256, 512, 1024, 2048]
+    container_memory:
+      type: number
+      description: "Memory in MB for the container"
+      default: 512
+      enum: [512, 1024, 2048, 4096]
+    desired_count:
+      type: number
+      description: "Desired number of container instances"
+      default: 2
+      minimum: 1
+      maximum: 10
+    repository_name:
+      type: string
+      description: "Name of the GitHub repository"
+      default: "DevSecOpsPracticeStack"
+    source_path:
+      type: string
+      description: "Path to the service code within the repository"
+      default: "sample-app/potato-catalog"
+  required:
+    - container_port
+    - container_cpu
+    - container_memory
+    - desired_count

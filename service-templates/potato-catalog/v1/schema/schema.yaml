@@ -4,6 +4,7 @@ schema:
   environment_input_type: "PotatoServiceInput"
   PotatoServiceInput:
     type: object
+    description: "An awesome potato service"
     properties:
       container_port:
         type: number

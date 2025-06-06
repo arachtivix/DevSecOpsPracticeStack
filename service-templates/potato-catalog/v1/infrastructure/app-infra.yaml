@@ -6,10 +6,6 @@ Parameters:
     Type: String
     Description: Environment name
 
-  ServiceName:
-    Type: String
-    Description: Name of the service
-
   ContainerPort:
     Type: Number
     Default: 8080
@@ -34,7 +30,7 @@ Resources:
   TaskDefinition:
     Type: AWS::ECS::TaskDefinition
     Properties:
-      Family: !Sub ${ServiceName}
+      Family: !Sub ${AWS::StackName}
       RequiresCompatibilities:
         - FARGATE
       NetworkMode: awsvpc
@@ -43,8 +39,8 @@ Resources:
       ExecutionRoleArn: !GetAtt ExecutionRole.Arn
       TaskRoleArn: !GetAtt TaskRole.Arn
       ContainerDefinitions:
-        - Name: !Ref ServiceName
-          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${ServiceName}:latest
+        - Name: !Ref AWS::StackName
+          Image: !Sub ${AWS::AccountId}.dkr.ecr.${AWS::Region}.amazonaws.com/${AWS::StackName}:latest
           PortMappings:
             - ContainerPort: !Ref ContainerPort
           LogConfiguration:
@@ -52,7 +48,7 @@ Resources:
             Options:
               awslogs-group: !Ref LogGroup
               awslogs-region: !Ref AWS::Region
-              awslogs-stream-prefix: !Ref ServiceName
+              awslogs-stream-prefix: !Ref AWS::StackName
           Environment:
             - Name: SPRING_PROFILES_ACTIVE
               Value: prod
@@ -84,14 +80,14 @@ Resources:
   LogGroup:
     Type: AWS::Logs::LogGroup
     Properties:
-      LogGroupName: !Sub /ecs/${ServiceName}
+      LogGroupName: !Sub /ecs/${AWS::StackName}
       RetentionInDays: 30
 
   Service:
     Type: AWS::ECS::Service
     DependsOn: LoadBalancerRule
     Properties:
-      ServiceName: !Ref ServiceName
+      AWS::StackName: !Ref AWS::StackName
       Cluster: 
         Fn::ImportValue: !Sub ${EnvironmentName}-ECSClusterName
       TaskDefinition: !Ref TaskDefinition
@@ -106,14 +102,14 @@ Resources:
             - Fn::ImportValue: !Sub ${EnvironmentName}-PrivateSubnet1
             - Fn::ImportValue: !Sub ${EnvironmentName}-PrivateSubnet2
       LoadBalancers:
-        - ContainerName: !Ref ServiceName
+        - ContainerName: !Ref AWS::StackName
           ContainerPort: !Ref ContainerPort
           TargetGroupArn: !Ref TargetGroup
 
   ContainerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: !Sub ${ServiceName} container security group
+      GroupDescription: !Sub ${AWS::StackName} container security group
       VpcId:
         Fn::ImportValue: !Sub ${EnvironmentName}-VpcId
       SecurityGroupIngress:
@@ -125,7 +121,7 @@ Resources:
   LoadBalancerSecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupDescription: !Sub ${ServiceName} load balancer security group
+      GroupDescription: !Sub ${AWS::StackName} load balancer security group
       VpcId:
         Fn::ImportValue: !Sub ${EnvironmentName}-VpcId
       SecurityGroupIngress:
@@ -137,7 +133,7 @@ Resources:
   LoadBalancer:
     Type: AWS::ElasticLoadBalancingV2::LoadBalancer
     Properties:
-      Name: !Sub ${ServiceName}-alb
+      Name: !Sub ${AWS::StackName}-alb
       Subnets:
         - Fn::ImportValue: !Sub ${EnvironmentName}-PublicSubnet1
         - Fn::ImportValue: !Sub ${EnvironmentName}-PublicSubnet2
@@ -153,7 +149,7 @@ Resources:
       HealthCheckTimeoutSeconds: 5
       HealthyThresholdCount: 2
       TargetType: ip
-      Name: !Sub ${ServiceName}-tg
+      Name: !Sub ${AWS::StackName}-tg
       Port: !Ref ContainerPort
       Protocol: HTTP
       UnhealthyThresholdCount: 5
@@ -190,4 +186,4 @@ Outputs:
     Description: URL of the load balancer for the service
     Value: !Sub http://${LoadBalancer.DNSName}
     Export:
-      Name: !Sub ${ServiceName}-ServiceUrl
+      Name: !Sub ${AWS::StackName}-ServiceUrl

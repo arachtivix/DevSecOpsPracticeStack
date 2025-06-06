@@ -1,7 +1,7 @@
 schema:
   format:
     openapi: "3.0.0"
-  environment_input_type: "BaseInfraEnvironmentInput"
+  service_input_type: "BaseInfraEnvironmentInput"
   types:
     BaseInfraEnvironmentInput:
       type: object

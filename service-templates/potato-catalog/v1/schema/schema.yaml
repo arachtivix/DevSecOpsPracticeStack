@@ -1,3 +1,4 @@
+proton: ServiceTemplateSchema
 schema:
   format:
     openapi: "3.0.0"
